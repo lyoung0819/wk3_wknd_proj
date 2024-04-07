@@ -1,9 +1,9 @@
 class Task():
-    id_counter = 1
+    id_counter = 0  
+    list_of_tasks = [] 
 
     def __init__(self, task, task_status):
-        self.id = Task.id_counter
-        Task.id_counter += 1
+        self.id_counter += 1
         self.task = task
         self.task_status = task_status
 
@@ -12,16 +12,6 @@ class Task():
     
     def __repr__(self):
         return f'<Task {self.id}|{self.task}|{self.task_status}>'
-
-list_of_tasks = [] 
-class TaskList():
-    def _get_task_by_id(self, task_id):
-        # loop through all tasks in list
-        for task in list_of_tasks:
-            if task.id == task_id:
-                return task
-        return None
-
 
         # Define all the functions you can call against an instance of a Task
     def add(self):
@@ -35,15 +25,15 @@ class TaskList():
             task_status = f'[ ]'
         else:
             print("Not a valid response. Please enter 'Y' or 'N'")
-        new_task = Task(task_status, task)
-        list_of_tasks.append(new_task)
+        new_task = (task, task_status)
+        self.list_of_tasks.append(new_task)
         print(f'{new_task} has been added to your list!')
 
     def view(self):
         # make sure there are posts
         if self.list_of_tasks:
             # loop thru and print
-            for task in list_of_tasks:
+            for task in self.list_of_tasks:
                 print(task)
         else:
             #if no tasks are in list
@@ -72,7 +62,6 @@ class TaskList():
             else: 
                 print('Please provide a 1 or 2.')
 
-
     def delete(self, task_id):
         task = self._get_task_by_id(task_id)
         if task:
@@ -85,18 +74,20 @@ class TaskList():
         else:
             print('There is no task with the ID of {task_id}!')
 
+    def _get_task_by_id(self, task_id):
+        # loop through all tasks in list
+        for task in self.list_of_tasks:
+            if self.task.id == task_id:
+                return task
 
     def quit(self):
         return 'Thank you for using the Task Manager. Have a great day!'
 
 
     
-
-
- 
-class TaskListManager:
+class TaskList():
     print('Welcome to the Task Manager!')
-    tasklist = TaskList()
+    newtasklist = Task()
     print(f"""
     1. Add a task
     2. View a task
@@ -109,17 +100,23 @@ class TaskListManager:
         while to_do not in {'1', '2', '3', '4', '5'}:
             to_do = input('Not valid. Please enter 1, 2, 3, 4, or 5.')
         if to_do == '1':
-            tasklist.add()
+            newtasklist.add()
             to_do = input('What would you like to do? Please provide the number.')
         elif to_do == '2':
-            tasklist.view()
+            newtasklist.view()
             to_do = input('What would you like to do? Please provide the number.')
         elif to_do == '3':
-            tasklist.edit_status() 
+            newtasklist.edit_status() 
             to_do = input('What would you like to do? Please provide the number.')
         elif to_do == '4':
-            tasklist.delete()
+            newtasklist.delete()
             to_do = input('What would you like to do? Please provide the number.')
         elif to_do == '5':
-            tasklist.quit() 
+            newtasklist.quit() 
+            break
+       
+
+        
+
+
 
