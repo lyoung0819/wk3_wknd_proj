@@ -1,19 +1,39 @@
 class Task():
     id_counter = 0  
-    list_of_tasks = [] 
 
     def __init__(self, task, task_status):
         self.id_counter += 1
         self.task = task
         self.task_status = task_status
 
+
+class TaskList():
+    list_of_tasks = {} 
+
+    # def __init__(self, task, task_status):
+    #     self.id_counter += 1
+    #     self.task = task
+    #     self.task_status = task_status
+
     def __str__(self):
         return f'{self.task_status} {self.task}'
     
     def __repr__(self):
         return f'<Task {self.id}|{self.task}|{self.task_status}>'
+    
 
-        # Define all the functions you can call against an instance of a Task
+    # NEEDS FIXING: Tasks do not have IDs currently. List of Tasks currently has key = status, value = task. Key needs to be changed to an ID number, and value needs to be list with task_status, task
+
+    # >>>  GET TASK - NOT WORKING <<< 
+    # def __get_task_by_id(self, task_id):
+    #     # loop through all tasks in list
+    #     for task in self.list_of_tasks:
+    #         if self.task.id == task_id:
+    #             return task
+
+
+    # >>>  ADD - WORKING <<< 
+    # Define all the functions you can call against an instance of a Task
     def add(self):
         # user input to add task
         task = input('Enter new task: ')
@@ -25,26 +45,30 @@ class Task():
             task_status = f'[ ]'
         else:
             print("Not a valid response. Please enter 'Y' or 'N'")
-        new_task = (task, task_status)
-        self.list_of_tasks.append(new_task)
-        print(f'{new_task} has been added to your list!')
-
+        new_task = Task(task, task_status) ##### !!!!!! Returning a class object, not value
+        self.list_of_tasks[new_task.task_status] = new_task.task
+        print(f'{new_task.task} {new_task.task_status} has been added to your list!')
+    
+    # >>>  VIEW - WORKING <<< 
     def view(self):
         # make sure there are posts
         if self.list_of_tasks:
             # loop thru and print
-            for task in self.list_of_tasks:
-                print(task)
+            for key,val in self.list_of_tasks.items(): 
+                print(f"{key} {val}")
+            # for self.task in self.list_of_tasks:
+            #     print(self.task)
         else:
             #if no tasks are in list
             print('Congrats! You have no tasks on your to do list!')
-
-    def edit_status(self, task_id):
-        task = self._get_task_by_id(task_id)
+    
+    # >>>  EDIT - NOT WORKING <<< 
+    def edit_status(self):
+        idnum = input('Which task number would you like to edit?')
+        task = self.__get_task_by_id(idnum)
         if task:
             print(f"""
-            1. Task
-            2. Task Status
+            {idnum}. {self.task}
             """)
             user_ans = input('What would you like to edit? 1 or 2? ')
             if int(user_ans) == 1:
@@ -74,20 +98,16 @@ class Task():
         else:
             print('There is no task with the ID of {task_id}!')
 
-    def _get_task_by_id(self, task_id):
-        # loop through all tasks in list
-        for task in self.list_of_tasks:
-            if self.task.id == task_id:
-                return task
+   
 
     def quit(self):
         return 'Thank you for using the Task Manager. Have a great day!'
 
 
     
-class TaskList():
+class TaskManager():
     print('Welcome to the Task Manager!')
-    newtasklist = Task()
+    newtasklist = TaskList()
     print(f"""
     1. Add a task
     2. View a task
